@@ -1,0 +1,168 @@
+.app {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.app-header h1 {
+  font-size: 1.75rem;
+  font-weight: 600;
+  margin: 0 0 0.25rem 0;
+  letter-spacing: -0.02em;
+}
+
+/* ── Form ─────────────────────────────────────────────── */
+
+.item-form {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.item-form input {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #d0d0d0;
+  border-radius: 6px;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.item-form input:focus {
+  border-color: #555;
+}
+
+.item-form input[type='text'] {
+  flex: 1;
+  min-width: 120px;
+}
+
+.item-form input[type='number'] {
+  width: 80px;
+}
+
+.item-form button {
+  padding: 0.5rem 1.25rem;
+  background: #222;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: background 0.15s;
+}
+
+.item-form button:hover {
+  background: #444;
+}
+
+/* ── List ─────────────────────────────────────────────── */
+
+.empty-state {
+  color: #aaa;
+  text-align: center;
+  padding: 2.5rem 0;
+  font-size: 0.95rem;
+}
+
+.item-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.item-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem 1rem;
+  background: #f8f8f8;
+  border: 1px solid #ebebeb;
+  border-radius: 8px;
+}
+
+.item-name {
+  flex: 1;
+  font-weight: 500;
+}
+
+.item-value {
+  color: #555;
+  font-variant-numeric: tabular-nums;
+  min-width: 60px;
+  text-align: right;
+}
+
+.item-quantity {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.item-quantity button {
+  width: 28px;
+  height: 28px;
+  border: 1px solid #d0d0d0;
+  background: #fff;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  line-height: 1;
+  transition: background 0.1s;
+}
+
+.item-quantity button:hover {
+  background: #f0f0f0;
+}
+
+.item-quantity span {
+  min-width: 24px;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+.remove-btn {
+  padding: 0.25rem 0.6rem;
+  background: transparent;
+  border: 1px solid #d0d0d0;
+  border-radius: 5px;
+  cursor: pointer;
+  color: #999;
+  font-size: 0.85rem;
+  transition: all 0.1s;
+}
+
+.remove-btn:hover {
+  background: #fff0f0;
+  border-color: #ffcccc;
+  color: #cc0000;
+}
+
+/* ── Summary ──────────────────────────────────────────── */
+
+.summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.25rem;
+  background: #f2f2f2;
+  border-radius: 8px;
+  margin-top: auto;
+  font-size: 0.95rem;
+  color: #555;
+}
+
+.summary-total {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #222;
+  font-variant-numeric: tabular-nums;
+}
