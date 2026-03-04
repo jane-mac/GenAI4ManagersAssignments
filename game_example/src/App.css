@@ -1,0 +1,145 @@
+* , *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #0d1117;
+  color: #e6edf3;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  padding: 2rem;
+}
+
+/* ── Overlay screens (start + gameover) ── */
+
+.overlay-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  text-align: center;
+  max-width: 420px;
+}
+
+.overlay-screen h1 {
+  font-size: 2.25rem;
+  font-weight: 700;
+  margin: 0;
+  letter-spacing: -0.03em;
+}
+
+.overlay-screen h2 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.overlay-screen p {
+  color: #8b949e;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.legend {
+  display: flex;
+  gap: 1.5rem;
+  font-size: 0.95rem;
+}
+
+.legend-coin {
+  color: #ffd700;
+  font-weight: 600;
+}
+
+.legend-star {
+  color: #ffe566;
+  font-weight: 600;
+}
+
+.controls-hint {
+  font-size: 0.9rem;
+  color: #6e7681 !important;
+}
+
+.controls-hint kbd {
+  background: #21262d;
+  border: 1px solid #30363d;
+  border-radius: 4px;
+  padding: 0.1rem 0.4rem;
+  font-family: monospace;
+  font-size: 0.85rem;
+  color: #e6edf3;
+}
+
+button {
+  padding: 0.6rem 2rem;
+  background: #238636;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: background 0.15s;
+  margin-top: 0.5rem;
+}
+
+button:hover {
+  background: #2ea043;
+}
+
+/* ── Canvas ── */
+
+.game-canvas {
+  display: block;
+  border-radius: 10px;
+  outline: none;
+  box-shadow: 0 4px 32px rgba(0, 0, 0, 0.5);
+}
+
+/* ── Game Over stats ── */
+
+.stat-table {
+  width: 100%;
+  max-width: 300px;
+  border-collapse: collapse;
+  margin: 0.5rem 0;
+}
+
+.stat-table td {
+  padding: 0.5rem 0.75rem;
+  font-size: 1rem;
+}
+
+.stat-table td:last-child {
+  text-align: right;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.stat-table tr + tr td {
+  border-top: 1px solid #21262d;
+}
+
+.stat-score td {
+  font-size: 1.2rem;
+  color: #ffd700;
+  padding-top: 0.75rem;
+}
+
+.score-note {
+  font-size: 0.8rem;
+  color: #6e7681 !important;
+}
