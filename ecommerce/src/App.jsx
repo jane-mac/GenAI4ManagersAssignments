@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { addItem, removeItem, updateQuantity, getTotal, getItemCount } from './engine'
+import { loadItems, saveItems } from './storage'
 import Navbar from './components/Navbar'
 import ImageCarousel from './components/ImageCarousel'
 import ProductDetails from './components/ProductDetails'
@@ -10,27 +11,28 @@ import OrderConfirmation from './components/OrderConfirmation'
 import './App.css'
 
 function App() {
-  const [cart, setCart] = useState([])
+  const [cart, setCart] = useState(loadItems)
   const [cartOpen, setCartOpen] = useState(false)
   const [confirmed, setConfirmed] = useState(false)
   const [confirmedOrder, setConfirmedOrder] = useState([])
   const [colorImageIdx, setColorImageIdx] = useState(0)
 
   const handleAddToCart = (name, price, qty, waist, length) => {
-    setCart((prev) => addItem(prev, name, price, qty, waist, length))
+    setCart((prev) => saveItems(addItem(prev, name, price, qty, waist, length)))
     setCartOpen(true)
   }
 
   const handleRemove = (name) => {
-    setCart((prev) => removeItem(prev, name))
+    setCart((prev) => saveItems(removeItem(prev, name)))
   }
 
   const handleUpdateQty = (name, qty) => {
-    setCart((prev) => updateQuantity(prev, name, qty))
+    setCart((prev) => saveItems(updateQuantity(prev, name, qty)))
   }
 
   const handleCheckout = () => {
     setConfirmedOrder([...cart])
+    saveItems([])
     setCart([])
     setCartOpen(false)
     setConfirmed(true)

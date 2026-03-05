@@ -1,18 +1,21 @@
 import { useState } from 'react'
+import { loadItems, saveItems } from './storage'
 import Game from './components/Game'
 import GameOver from './components/GameOver'
 import './App.css'
 
 function App() {
   const [screen, setScreen] = useState('start') // 'start' | 'playing' | 'gameover'
-  const [finalInventory, setFinalInventory] = useState([])
+  const [finalInventory, setFinalInventory] = useState(loadItems)
 
   const handleGameOver = (inventory) => {
+    saveItems(inventory)
     setFinalInventory(inventory)
     setScreen('gameover')
   }
 
   const handleRestart = () => {
+    saveItems([])
     setFinalInventory([])
     setScreen('playing')
   }

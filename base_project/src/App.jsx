@@ -1,23 +1,24 @@
 import { useState } from 'react'
 import { addItem, removeItem, updateQuantity, getTotal, getItemCount } from './engine'
+import { loadItems, saveItems } from './storage'
 import ItemForm from './components/ItemForm'
 import ItemList from './components/ItemList'
 import Summary from './components/Summary'
 import './App.css'
 
 function App() {
-  const [items, setItems] = useState([])
+  const [items, setItems] = useState(loadItems)
 
   const handleAdd = (name, value, quantity) => {
-    setItems((prev) => addItem(prev, name, value, quantity))
+    setItems((prev) => saveItems(addItem(prev, name, value, quantity)))
   }
 
   const handleRemove = (name) => {
-    setItems((prev) => removeItem(prev, name))
+    setItems((prev) => saveItems(removeItem(prev, name)))
   }
 
   const handleUpdateQuantity = (name, quantity) => {
-    setItems((prev) => updateQuantity(prev, name, quantity))
+    setItems((prev) => saveItems(updateQuantity(prev, name, quantity)))
   }
 
   return (

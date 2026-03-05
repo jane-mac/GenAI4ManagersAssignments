@@ -1,6 +1,7 @@
 import { useState, useCallback } from 'react'
 import Papa from 'papaparse'
 import { addItem, getTotal, getItemCount, findItem } from './engine'
+import { loadItems, saveItems, loadDashboard, saveDashboard, clearDashboard } from './storage'
 import { analyzeColumns, prepareBarData, prepareLineData, preparePieData, prepareScatterData, prepareAreaData } from './utils/analyzeData'
 import FileUpload from './components/FileUpload'
 import StatsBar from './components/StatsBar'
@@ -8,9 +9,10 @@ import ChartGrid from './components/ChartGrid'
 import './App.css'
 
 function App() {
-  const [fileName, setFileName] = useState(null)
-  const [dashData, setDashData] = useState(null) // { analysis, charts }
-  const [stats, setStats] = useState([])          // engine-managed column stats
+  const { fileName: savedFileName, dashData: savedDashData } = loadDashboard()
+  const [fileName, setFileName] = useState(savedFileName)
+  const [dashData, setDashData] = useState(savedDashData) // { analysis, charts }
+  const [stats, setStats] = useState(loadItems)            // engine-managed column stats
 
   const handleFile = useCallback((file) => {
     Papa.parse(file, {
@@ -31,10 +33,10 @@ function App() {
         for (const col of analysis.numericCols) {
           newStats = addItem(newStats, col.name, parseFloat(col.mean.toFixed(2)), col.count)
         }
+        saveItems(newStats)
         setStats(newStats)
 
-        setFileName(file.name)
-        setDashData({
+        const nextDashData = {
           headers,
           rowCount: analysis.rows.length,
           analysis,
@@ -45,12 +47,16 @@ function App() {
             scatter: prepareScatterData(analysis),
             area:    prepareAreaData(analysis),
           },
-        })
+        }
+        saveDashboard(file.name, nextDashData)
+        setFileName(file.name)
+        setDashData(nextDashData)
       },
     })
   }, [])
 
   const reset = () => {
+    clearDashboard()
     setDashData(null)
     setFileName(null)
     setStats([])
