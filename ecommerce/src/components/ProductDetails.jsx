@@ -30,6 +30,8 @@ function ProductDetails({ onAddToCart, onColorChange }) {
     // The engine deduplicates by name, so re-adding the same product (any size)
     // increases quantity — a natural extension point for students to improve.
     onAddToCart('501 Original Fit', PRICE, qty, selectedWaist, selectedLength)
+    setSelectedWaist(null)
+    setSelectedLength(null)
   }
 
   return (

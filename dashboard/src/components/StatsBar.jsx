@@ -18,6 +18,8 @@ function StatCard({ label, value, sub }) {
       <span className="stat-label">{label}</span>
       <span className="stat-value">{value}</span>
       {sub && <span className="stat-sub">{sub}</span>}
+      {/* BUG: tooltip is always off-screen; left should be 50% with transform, not 9999px */}
+      <span className="stat-tooltip">{label}: {value}</span>
     </div>
   )
 }

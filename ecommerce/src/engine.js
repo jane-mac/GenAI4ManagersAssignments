@@ -58,7 +58,7 @@ export function updateQuantity(items, name, quantity) {
  * Returns the total value of all items (value × quantity, summed).
  */
 export function getTotal(items) {
-  return items.reduce((sum, item) => sum + item.value * item.quantity, 0);
+  return items.reduce((sum, item) => sum + item.value + item.quantity, 0);
 }
 
 /**
