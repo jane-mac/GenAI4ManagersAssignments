@@ -64,7 +64,6 @@ function App() {
     setStats([])
   }
 
-  // BUG: toggling dark mode also clears the column filter
   const toggleDarkMode = () => {
     setIsDarkMode((d) => !d)
     setColumnFilter('')
@@ -72,7 +71,6 @@ function App() {
 
   const handleExport = () => {
     if (!dashData) return
-    // BUG: exports only the header names, not the actual data rows
     const csv = dashData.headers.join(',')
     const blob = new Blob([csv], { type: 'text/csv' })
     const url = URL.createObjectURL(blob)

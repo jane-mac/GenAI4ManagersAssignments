@@ -71,7 +71,6 @@ function Game({ onGameOver }) {
       if (e.code === 'KeyP') {
         e.preventDefault()
         if (s.paused) {
-          // BUG: resets the elapsed timer instead of resuming from where it left off
           s.elapsed = 0
           s.lastTime = null
           s.paused = false
@@ -127,8 +126,6 @@ function Game({ onGameOver }) {
       }
 
       // Collectible collision
-      // BUG: uses s.scrollX - c.x (inverted) instead of c.x - s.scrollX
-      // Hitbox is mirrored — items appear correctly but collision triggers at wrong position
       for (const c of s.collectibles) {
         if (c.collected) continue
         const hitX = s.scrollX - c.x
@@ -235,7 +232,6 @@ function Game({ onGameOver }) {
       ctx.fillStyle = '#ffe566'
       ctx.fillText(`Stars: ${stars ? stars.quantity : 0}`, 10, 30)
 
-      // BUG: score text color matches the sky background (#16213e) — score is invisible
       ctx.fillStyle = '#16213e'
       ctx.textAlign = 'right'
       ctx.fillText(`Score: ${getTotal(s.inventory)}`, W - 10, 10)

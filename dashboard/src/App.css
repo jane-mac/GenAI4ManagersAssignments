@@ -252,7 +252,7 @@
   display: none;
   position: absolute;
   bottom: calc(100% + 8px);
-  left: 9999px; /* BUG: should be left: 50%; transform: translateX(-50%); */
+  left: 9999px;
   background: #1e2a4a;
   color: white;
   padding: 0.35rem 0.65rem;
