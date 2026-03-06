@@ -13,6 +13,8 @@ function App() {
   const [fileName, setFileName] = useState(savedFileName)
   const [dashData, setDashData] = useState(savedDashData) // { analysis, charts }
   const [stats, setStats] = useState(loadItems)            // engine-managed column stats
+  const [isDarkMode, setIsDarkMode] = useState(false)
+  const [columnFilter, setColumnFilter] = useState('')
 
   const handleFile = useCallback((file) => {
     Papa.parse(file, {
@@ -62,18 +64,53 @@ function App() {
     setStats([])
   }
 
+  // BUG: toggling dark mode also clears the column filter
+  const toggleDarkMode = () => {
+    setIsDarkMode((d) => !d)
+    setColumnFilter('')
+  }
+
+  const handleExport = () => {
+    if (!dashData) return
+    // BUG: exports only the header names, not the actual data rows
+    const csv = dashData.headers.join(',')
+    const blob = new Blob([csv], { type: 'text/csv' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = (fileName || 'data').replace('.csv', '_export.csv')
+    a.click()
+    URL.revokeObjectURL(url)
+  }
+
+  const filteredStats = columnFilter
+    ? stats.filter((item) =>
+        item.name.toLowerCase().includes(columnFilter.toLowerCase())
+      )
+    : stats
+
   return (
-    <div className="app">
+    <div className={`app${isDarkMode ? ' dark' : ''}`}>
       <header className="app-header">
         <div className="header-left">
           <h1>Data Dashboard</h1>
           {fileName && <span className="file-chip">{fileName}</span>}
         </div>
-        {dashData && (
-          <button className="btn-reset" onClick={reset}>
-            ↑ Upload New File
+        <div className="header-actions">
+          {dashData && (
+            <button className="btn-export" onClick={handleExport}>
+              Export CSV
+            </button>
+          )}
+          <button className="btn-dark-mode" onClick={toggleDarkMode}>
+            {isDarkMode ? 'Light Mode' : 'Dark Mode'}
           </button>
-        )}
+          {dashData && (
+            <button className="btn-reset" onClick={reset}>
+              Upload New File
+            </button>
+          )}
+        </div>
       </header>
 
       {!dashData ? (
@@ -82,9 +119,18 @@ function App() {
         </div>
       ) : (
         <main className="dashboard">
+          <div className="filter-bar">
+            <input
+              className="column-filter"
+              type="text"
+              placeholder="Filter columns..."
+              value={columnFilter}
+              onChange={(e) => setColumnFilter(e.target.value)}
+            />
+          </div>
           {/* StatsBar uses engine: getItemCount, getTotal, findItem */}
           <StatsBar
-            stats={stats}
+            stats={filteredStats}
             rowCount={dashData.rowCount}
             colCount={dashData.headers.length}
           />

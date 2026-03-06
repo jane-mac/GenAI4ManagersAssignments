@@ -184,3 +184,83 @@
   .chart-card.full-width { grid-column: 1; }
   .dashboard { padding: 1rem; }
 }
+
+/* ── Dark mode ───────────────────────────────────────────── */
+
+.app.dark { background: #1a1f2e; color: #e0e0e0; }
+.app.dark .app-header { background: #0d1117; }
+.app.dark .stat-card { background: #1e2a4a; }
+.app.dark .stat-value { color: #e0e0e0; }
+.app.dark .chart-card { background: #1e2a4a; }
+.app.dark .column-filter { background: #1e2a4a; color: #e0e0e0; border-color: #3a4a6a; }
+
+/* ── Header actions ──────────────────────────────────────── */
+
+.header-actions { display: flex; gap: 0.5rem; align-items: center; }
+
+.btn-dark-mode {
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.3);
+  color: white;
+  padding: 0.4rem 0.85rem;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.15s;
+}
+
+.btn-dark-mode:hover { background: rgba(255,255,255,0.2); }
+
+.btn-export {
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.3);
+  color: white;
+  padding: 0.4rem 0.85rem;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.15s;
+}
+
+.btn-export:hover { background: rgba(255,255,255,0.2); }
+
+/* ── Column filter ───────────────────────────────────────── */
+
+.filter-bar { margin-bottom: 1rem; }
+
+.column-filter {
+  padding: 0.4rem 0.75rem;
+  border: 1px solid #c4cce0;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  width: 220px;
+  font-family: inherit;
+  outline: none;
+}
+
+.column-filter:focus { border-color: #4361ee; }
+
+/* ── Stat card tooltip ───────────────────────────────────── */
+
+.stat-card { position: relative; }
+
+.stat-tooltip {
+  display: none;
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 9999px; /* BUG: should be left: 50%; transform: translateX(-50%); */
+  background: #1e2a4a;
+  color: white;
+  padding: 0.35rem 0.65rem;
+  border-radius: 6px;
+  font-size: 0.78rem;
+  white-space: nowrap;
+  z-index: 50;
+  pointer-events: none;
+}
+
+.stat-card:hover .stat-tooltip { display: block; }

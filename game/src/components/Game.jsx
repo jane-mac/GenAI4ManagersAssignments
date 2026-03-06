@@ -32,6 +32,9 @@ function Game({ onGameOver }) {
       inventory: [],
       raf: null,
       dead: false,
+      paused: false,
+      elapsed: 0,
+      lastTime: null,
     }
 
     // Pre-generate platforms so there are always enough ahead
@@ -63,6 +66,18 @@ function Game({ onGameOver }) {
         if (s.onGround && !s.dead) {
           s.playerVY = JUMP_FORCE
           s.onGround = false
+        }
+      }
+      if (e.code === 'KeyP') {
+        e.preventDefault()
+        if (s.paused) {
+          // BUG: resets the elapsed timer instead of resuming from where it left off
+          s.elapsed = 0
+          s.lastTime = null
+          s.paused = false
+        } else {
+          s.paused = true
+          s.lastTime = null
         }
       }
     }
@@ -112,12 +127,14 @@ function Game({ onGameOver }) {
       }
 
       // Collectible collision
+      // BUG: uses s.scrollX - c.x (inverted) instead of c.x - s.scrollX
+      // Hitbox is mirrored — items appear correctly but collision triggers at wrong position
       for (const c of s.collectibles) {
         if (c.collected) continue
-        const cx = c.x - s.scrollX
+        const hitX = s.scrollX - c.x
         if (
-          PLAYER_X < cx + c.r &&
-          PLAYER_X + PLAYER_W > cx - c.r &&
+          PLAYER_X < hitX + c.r &&
+          PLAYER_X + PLAYER_W > hitX - c.r &&
           s.playerY < c.y + c.r &&
           pb > c.y - c.r
         ) {
@@ -218,14 +235,37 @@ function Game({ onGameOver }) {
       ctx.fillStyle = '#ffe566'
       ctx.fillText(`Stars: ${stars ? stars.quantity : 0}`, 10, 30)
 
-      ctx.fillStyle = 'rgba(255,255,255,0.9)'
+      // BUG: score text color matches the sky background (#16213e) — score is invisible
+      ctx.fillStyle = '#16213e'
       ctx.textAlign = 'right'
       ctx.fillText(`Score: ${getTotal(s.inventory)}`, W - 10, 10)
+
+      ctx.fillStyle = 'rgba(255,255,255,0.9)'
+      ctx.textAlign = 'right'
+      ctx.fillText(`Time: ${s.elapsed.toFixed(1)}s`, W - 10, 30)
     }
 
     // ── loop ─────────────────────────────────────────────────────────────────
 
-    function loop() {
+    function loop(timestamp) {
+      if (s.paused) {
+        draw()
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.45)'
+        ctx.fillRect(0, 0, W, H)
+        ctx.fillStyle = 'white'
+        ctx.font = 'bold 20px monospace'
+        ctx.textAlign = 'center'
+        ctx.textBaseline = 'middle'
+        ctx.fillText('PAUSED  —  press P to resume', W / 2, H / 2)
+        s.raf = requestAnimationFrame(loop)
+        return
+      }
+
+      if (s.lastTime !== null) {
+        s.elapsed += (timestamp - s.lastTime) / 1000
+      }
+      s.lastTime = timestamp
+
       update()
       if (!s.dead) {
         draw()
