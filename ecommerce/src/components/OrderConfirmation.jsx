@@ -1,6 +1,3 @@
-// OrderConfirmation uses engine's getTotal (passed in as the `total` prop,
-// computed in App.jsx) and findItem (via the order array) to display the summary.
-
 function OrderConfirmation({ order, total, onClose }) {
   const orderNumber = Math.floor(Math.random() * 9000000 + 1000000)
 

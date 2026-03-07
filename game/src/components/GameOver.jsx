@@ -1,8 +1,7 @@
 import { findItem, getTotal, getItemCount } from '../engine'
 
 function GameOver({ inventory, onRestart }) {
-  // These engine calls are the same functions the tests verify —
-  // if students break the engine while adding features, this screen breaks too.
+
   const coins = findItem(inventory, 'coin')
   const stars = findItem(inventory, 'star')
   const score = getTotal(inventory)

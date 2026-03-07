@@ -19,8 +19,6 @@ function Game({ onGameOver }) {
     const ctx = canvas.getContext('2d')
     canvas.focus()
 
-    // All mutable game state lives in a plain object — never in React state,
-    // so the game loop runs without triggering re-renders.
     const s = {
       playerY: GROUND - PLAYER_H,
       playerVY: 0,
@@ -37,7 +35,6 @@ function Game({ onGameOver }) {
       lastTime: null,
     }
 
-    // Pre-generate platforms so there are always enough ahead
     for (let i = 0; i < 6; i++) spawnPlatform()
 
     function spawnPlatform() {
@@ -47,7 +44,6 @@ function Game({ onGameOver }) {
       s.platforms.push({ x, w })
       s.nextPlatformEnd = x + w
 
-      // Randomly place a coin or star above the platform
       if (Math.random() > 0.3) {
         const isStar = Math.random() > 0.72
         s.collectibles.push({
@@ -82,23 +78,18 @@ function Game({ onGameOver }) {
     }
     window.addEventListener('keydown', onKey)
 
-    // ── update ──────────────────────────────────────────────────────────────
 
     function update() {
       s.scrollX += SCROLL_SPEED
 
-      // Keep platforms generated well ahead of the viewport
       while (s.nextPlatformEnd - s.scrollX < W + 300) spawnPlatform()
 
-      // Cull off-screen objects
       s.platforms = s.platforms.filter((p) => p.x + p.w > s.scrollX - 50)
       s.collectibles = s.collectibles.filter((c) => c.x > s.scrollX - 50)
 
-      // Physics
       s.playerVY += GRAVITY
       s.playerY += s.playerVY
 
-      // Platform collision — check if player's feet are at ground level
       s.onGround = false
       const pb = s.playerY + PLAYER_H
       for (const p of s.platforms) {
@@ -118,14 +109,12 @@ function Game({ onGameOver }) {
         }
       }
 
-      // Fell off the bottom → game over
       if (s.playerY > H + 40) {
         s.dead = true
         onGameOver([...s.inventory])
         return
       }
 
-      // Collectible collision
       for (const c of s.collectibles) {
         if (c.collected) continue
         const hitX = s.scrollX - c.x
@@ -178,11 +167,9 @@ function Game({ onGameOver }) {
     // ── draw ─────────────────────────────────────────────────────────────────
 
     function draw() {
-      // Sky
       ctx.fillStyle = '#16213e'
       ctx.fillRect(0, 0, W, H)
 
-      // Static background dots
       ctx.fillStyle = 'rgba(255,255,255,0.35)'
       const bgDots = [
         [50, 18], [130, 42], [210, 12], [295, 55], [380, 28],
@@ -191,7 +178,6 @@ function Game({ onGameOver }) {
       ]
       for (const [bx, by] of bgDots) ctx.fillRect(bx, by, 2, 2)
 
-      // Platforms
       for (const p of s.platforms) {
         const px = p.x - s.scrollX
         ctx.fillStyle = '#2d6a4f'
@@ -200,7 +186,6 @@ function Game({ onGameOver }) {
         ctx.fillRect(px, GROUND, p.w, 5)
       }
 
-      // Collectibles
       for (const c of s.collectibles) {
         if (c.collected) continue
         const cx = c.x - s.scrollX
@@ -208,10 +193,8 @@ function Game({ onGameOver }) {
         else drawStar(cx, c.y, c.r)
       }
 
-      // Player
       ctx.fillStyle = s.onGround ? '#e63946' : '#ff6b81'
       ctx.fillRect(PLAYER_X, s.playerY, PLAYER_W, PLAYER_H)
-      // Eyes
       ctx.fillStyle = 'white'
       ctx.fillRect(PLAYER_X + 5, s.playerY + 6, 6, 6)
       ctx.fillRect(PLAYER_X + 15, s.playerY + 6, 6, 6)
@@ -219,7 +202,6 @@ function Game({ onGameOver }) {
       ctx.fillRect(PLAYER_X + 7, s.playerY + 8, 3, 3)
       ctx.fillRect(PLAYER_X + 17, s.playerY + 8, 3, 3)
 
-      // HUD — powered by engine functions
       const coins = findItem(s.inventory, 'coin')
       const stars = findItem(s.inventory, 'star')
       ctx.textBaseline = 'top'

@@ -10,13 +10,12 @@ const IMAGES = [
   { bg: 'linear-gradient(160deg, #2c4a8c 0%, #3d64b8 60%, #5580d0 100%)', label: 'Lifestyle Shot',   icon: '✨', badge: 'NEW' },
 ]
 
-const VISIBLE = 3  // how many thumbnails are shown at once
+const VISIBLE = 3 
 
 function ImageCarousel({ colorImageIdx = 0 }) {
   const [activeIdx,   setActiveIdx]   = useState(0)
   const [thumbOffset, setThumbOffset] = useState(0)
 
-  // Select an image and auto-scroll the thumb strip to keep it visible
   const selectImage = (idx) => {
     setActiveIdx(idx)
     if (idx < thumbOffset) {
@@ -26,7 +25,6 @@ function ImageCarousel({ colorImageIdx = 0 }) {
     }
   }
 
-  // Jump to the color-specific image whenever the parent changes the selection
   useEffect(() => { selectImage(colorImageIdx) }, [colorImageIdx])
 
   const prevMain  = () => selectImage((activeIdx - 1 + IMAGES.length) % IMAGES.length)
@@ -75,7 +73,6 @@ function ImageCarousel({ colorImageIdx = 0 }) {
         </div>
       </div>
 
-      {/* ── Scrollable thumbnail strip (shows VISIBLE at a time) ── */}
       <div className="carousel-thumb-row">
         <button
           className="carousel-thumb-arrow"
