@@ -25,12 +25,6 @@ function App() {
         const analysis = analyzeColumns(headers, data)
         console.log("HIIIIIIIIIII!!!!!!!!")
 
-        // Register each numeric column as a catalog item:
-        //   name     = column name
-        //   value    = column mean (to 2 dp)
-        //   quantity = number of non-null rows
-        // This lets us use getItemCount() for total data points and
-        // getTotal() / getItemCount() for the grand mean across all numeric data.
         let newStats = []
         for (const col of analysis.numericCols) {
           newStats = addItem(newStats, col.name, parseFloat(col.mean.toFixed(2)), col.count)
@@ -64,7 +58,6 @@ function App() {
     setStats([])
   }
 
-  // BUG: toggling dark mode also clears the column filter
   const toggleDarkMode = () => {
     setIsDarkMode((d) => !d)
     setColumnFilter('')
@@ -72,7 +65,6 @@ function App() {
 
   const handleExport = () => {
     if (!dashData) return
-    // BUG: exports only the header names, not the actual data rows
     const csv = dashData.headers.join(',')
     const blob = new Blob([csv], { type: 'text/csv' })
     const url = URL.createObjectURL(blob)
@@ -128,7 +120,6 @@ function App() {
               onChange={(e) => setColumnFilter(e.target.value)}
             />
           </div>
-          {/* StatsBar uses engine: getItemCount, getTotal, findItem */}
           <StatsBar
             stats={filteredStats}
             rowCount={dashData.rowCount}

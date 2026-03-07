@@ -1,11 +1,5 @@
 import { getItemCount, getTotal, findItem } from '../engine'
 
-// Each numeric column is stored as a catalog item:
-//   value    = column mean
-//   quantity = non-null row count
-// So getItemCount(stats) = total numeric data points
-// And getTotal(stats) / getItemCount(stats) = grand mean across all numeric columns
-
 function fmt(n) {
   if (Math.abs(n) >= 1_000_000) return (n / 1_000_000).toFixed(1) + 'M'
   if (Math.abs(n) >= 1_000)     return (n / 1_000).toFixed(1) + 'K'
@@ -18,7 +12,6 @@ function StatCard({ label, value, sub }) {
       <span className="stat-label">{label}</span>
       <span className="stat-value">{value}</span>
       {sub && <span className="stat-sub">{sub}</span>}
-      {/* BUG: tooltip is always off-screen; left should be 50% with transform, not 9999px */}
       <span className="stat-tooltip">{label}: {value}</span>
     </div>
   )
@@ -28,7 +21,6 @@ function StatsBar({ stats, rowCount, colCount }) {
   const dataPoints = getItemCount(stats)
   const grandMean  = dataPoints > 0 ? getTotal(stats) / dataPoints : 0
 
-  // Find the numeric column with the highest mean using findItem
   const topCol = stats.reduce(
     (best, item) => {
       const found = findItem(stats, item.name)

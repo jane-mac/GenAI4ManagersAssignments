@@ -2,7 +2,6 @@ import { useState } from 'react'
 
 const PRICE = 79.50
 
-// imageIdx maps each color to its corresponding slide in ImageCarousel's IMAGES array
 const COLORS = [
   { name: 'Medium Stonewash', hex: '#4a7fc1', imageIdx: 0 },
   { name: 'Dark Rinse',       hex: '#1a2f5a', imageIdx: 4 },
@@ -26,9 +25,6 @@ function ProductDetails({ onAddToCart, onColorChange }) {
       return
     }
     setSizeError(false)
-    // Name is the product name; waist and length are stored as separate fields.
-    // The engine deduplicates by name, so re-adding the same product (any size)
-    // increases quantity — a natural extension point for students to improve.
     onAddToCart('501 Original Fit', PRICE, qty, selectedWaist, selectedLength)
     setSelectedWaist(null)
     setSelectedLength(null)

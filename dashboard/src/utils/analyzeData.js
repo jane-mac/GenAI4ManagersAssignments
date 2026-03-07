@@ -1,11 +1,9 @@
-// Detect column types and prepare data for each chart.
-// All functions are pure — they receive the raw rows array and return plain objects.
+
 
 const MAX_ROWS = 500
-const CHART_POINTS = 80   // max points for line/area charts
+const CHART_POINTS = 80   
 const SCATTER_POINTS = 150
 
-// ── Column analysis ───────────────────────────────────────────────────────────
 
 export function analyzeColumns(headers, rows) {
   const limited = rows.slice(0, MAX_ROWS)
@@ -13,7 +11,6 @@ export function analyzeColumns(headers, rows) {
   const cols = headers.map((header) => {
     const rawValues = limited.map((r) => r[header])
     const values = rawValues.filter((v) => v !== '' && v != null)
-    // Strip common non-numeric formatting like $ and ,
     const nums = values
       .map((v) => parseFloat(String(v).replace(/[$,%]/g, '').replace(/,/g, '')))
       .filter((v) => !isNaN(v))
@@ -44,9 +41,7 @@ export function analyzeColumns(headers, rows) {
   return { cols, numericCols, catCols, rows: limited }
 }
 
-// ── Chart data preparers ──────────────────────────────────────────────────────
 
-// Chart 1 — Bar: avg of a numeric column grouped by a categorical column
 export function prepareBarData(analysis) {
   const { catCols, numericCols, rows } = analysis
 
@@ -80,7 +75,6 @@ export function prepareBarData(analysis) {
     }
   }
 
-  // Fallback: first numeric column, first 15 rows
   if (numericCols.length > 0) {
     const col = numericCols[0]
     return {
@@ -97,7 +91,6 @@ export function prepareBarData(analysis) {
   return null
 }
 
-// Chart 2 — Line: first numeric column as a trend over row order
 export function prepareLineData(analysis) {
   const { numericCols, rows } = analysis
   if (numericCols.length === 0) return null
@@ -120,7 +113,6 @@ export function prepareLineData(analysis) {
   }
 }
 
-// Chart 3 — Pie: count distribution of the best-fit categorical column
 export function preparePieData(analysis) {
   const { catCols, numericCols, rows } = analysis
 
@@ -142,7 +134,6 @@ export function preparePieData(analysis) {
     }
   }
 
-  // Fallback: quartile split of first numeric column
   if (numericCols.length > 0) {
     const col = numericCols[0]
     const sorted = [...col.nums].sort((a, b) => a - b)
@@ -160,7 +151,6 @@ export function preparePieData(analysis) {
   return null
 }
 
-// Chart 4 — Scatter: first two numeric columns plotted against each other
 export function prepareScatterData(analysis) {
   const { numericCols, rows } = analysis
   if (numericCols.length < 2) return null
@@ -183,7 +173,6 @@ export function prepareScatterData(analysis) {
   }
 }
 
-// Chart 5 — Area/Histogram: distribution of the second (or first) numeric column
 export function prepareAreaData(analysis) {
   const { numericCols } = analysis
   const col = numericCols.length >= 2 ? numericCols[1] : numericCols[0]

@@ -26,7 +26,6 @@ describe('Game — public smoke tests', () => {
   it('mixed coins and stars total correctly', () => {
     let inv = addItem([], 'coin', 1, 3)
     inv = addItem(inv, 'star', 5, 2)
-    // 3 coins × 1 pt + 2 stars × 5 pts = 13
     expect(getTotal(inv)).toBe(13)
   })
 

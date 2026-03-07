@@ -5,7 +5,6 @@ beforeEach(() => {
   localStorage.clear()
 })
 
-// ─── loadItems / saveItems ────────────────────────────────────────────────────
 
 describe('loadItems', () => {
   it('returns an empty array when nothing is stored', () => {
@@ -38,7 +37,6 @@ describe('saveItems', () => {
   })
 })
 
-// ─── loadDashboard / saveDashboard ────────────────────────────────────────────
 
 describe('loadDashboard', () => {
   it('returns null values when nothing is stored', () => {
@@ -68,7 +66,6 @@ describe('saveDashboard', () => {
   })
 })
 
-// ─── clearDashboard ───────────────────────────────────────────────────────────
 
 describe('clearDashboard', () => {
   it('removes all dashboard keys from localStorage', () => {
@@ -87,7 +84,6 @@ describe('clearDashboard', () => {
   })
 })
 
-// ─── round-trip ──────────────────────────────────────────────────────────────
 
 describe('round-trip', () => {
   it('restores stats and dashboard data after save', () => {

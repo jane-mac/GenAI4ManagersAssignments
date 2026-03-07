@@ -1,8 +1,3 @@
-// Cart uses engine functions (passed down via App.jsx):
-//   removeItem  → onRemove
-//   updateQuantity → onUpdateQty
-//   getTotal    → total prop (computed in App.jsx)
-
 function Cart({ cart, total, onClose, onRemove, onUpdateQty, onCheckout }) {
   return (
     <div className="cart-overlay" onClick={(e) => e.target === e.currentTarget && onClose()}>
