@@ -23,7 +23,6 @@ function App() {
       complete: ({ data, meta }) => {
         const headers = meta.fields || []
         const analysis = analyzeColumns(headers, data)
-        console.log("HIIIIIIIIIII!!!!!!!!")
 
         let newStats = []
         for (const col of analysis.numericCols) {
