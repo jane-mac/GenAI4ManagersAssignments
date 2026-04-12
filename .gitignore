@@ -1,5 +1,12 @@
 /game/node_modules
 /ecommerce/node_modules
 /dashboard/node_modules
+grades.csv
 */.DS_Store
 .DS_Store
+/submissions
+/grading-debug-runs
+/submissions-base
+/node_modules
+/unzipped
+/test
